@@ -89,6 +89,9 @@ jobs:
             echo "keystore not found!"
             exit 1
           fi
+          
+          echo "Validating keystore"
+          keytool -list -v -keystore fdroid/keystore.p12 -storepass ${{ secrets.FDROID_STORE_KEYSTORE_PASSWORD }} > /dev/null
 
       - name: Install F-Droid server software
         run: |
