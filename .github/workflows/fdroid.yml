@@ -71,13 +71,15 @@ jobs:
           --name store_fdroid-keystore.jks --file fdroid/keystore.p12 --output none
 
       - name: Validate secrets
+        env:
+          FDROID_STORE_KEYSTORE_PASSWORD: ${{ secrets.FDROID_STORE_KEYSTORE_PASSWORD }}
         run: |
           if [ -f "fdroid/config.yml" ]; then
             echo "config found. setting permission to 0600"
             chmod 0600 fdroid/config.yml
 
-            echo "keypass: ${{ secrets.FDROID_STORE_KEYSTORE_PASSWORD }}" >> fdroid/config.yml
-            echo "keystorepass: ${{ secrets.FDROID_STORE_KEYSTORE_PASSWORD }}" >> fdroid/config.yml
+            echo "keypass: '$FDROID_STORE_KEYSTORE_PASSWORD'" >> fdroid/config.yml
+            echo "keystorepass: '$FDROID_STORE_KEYSTORE_PASSWORD'" >> fdroid/config.yml
           else
             echo "config not found!"
             exit 1
@@ -91,7 +93,7 @@ jobs:
           fi
           
           echo "Validating keystore"
-          keytool -list -v -keystore fdroid/keystore.p12 -storepass ${{ secrets.FDROID_STORE_KEYSTORE_PASSWORD }} > /dev/null
+          keytool -list -v -keystore fdroid/keystore.p12 -storepass "$FDROID_STORE_KEYSTORE_PASSWORD" > /dev/null
 
       - name: Install F-Droid server software
         run: |
