@@ -1,6 +1,6 @@
 ---
 android:
-  git: "https://github.com/bitwarden/android"
+  git: "https://github.com/bitwarden/mobile"
   applications:
     - filename: "com.x8bit.bitwarden-fdroid.apk"
       id: "bitwarden"
